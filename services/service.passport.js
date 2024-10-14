@@ -4,7 +4,7 @@ const DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
 const SnapchatStrategy = require('passport-snapchat').Strategy 
 const refresh = require("passport-oauth2-refresh");
 const passportCallBack = require("../controllers/controller.passport.js");
-
+require("dotenv").config()
 
 // Google Strategy
 const googleStrategy = new GoogleStrategy({
