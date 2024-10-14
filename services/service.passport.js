@@ -8,7 +8,7 @@ require("dotenv").config()
 
 // Google Strategy
 const googleStrategy = new GoogleStrategy({
-    callbackURL: "/auth/google/callback",
+    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/google/callback",
     clientID: process.env.ClientId,
     clientSecret: process.env.ClientSecret,
     accessType: 'offline',
@@ -24,7 +24,7 @@ refresh.use(googleStrategy);
 // Dropbox Strategy
 const dropboxStrategy = new DropboxStrategy({
     apiVersion: '2',
-    callbackURL: "/auth/dropbox/callback",
+    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
     clientID: process.env.DropboxClientId,
     clientSecret: process.env.DropboxClientSecret,
     accessType: 'offline',
