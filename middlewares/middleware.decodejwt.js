@@ -11,7 +11,7 @@ const decodeJwt = (req, res, next) => {
     
     try {
 
-        const decoded =  jwt.verify(token, process.env.JWTSecret);
+        const decoded =  jwt.decode(token, process.env.JWTSecret);
         const userId = decoded.id;
         if (userId) {
             req.session.userId = userId;

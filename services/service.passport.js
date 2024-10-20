@@ -40,7 +40,7 @@ refresh.use(dropboxStrategy);
 const snapchatStrategy = new SnapchatStrategy({
     clientID: 'f31866cb-c917-4f30-aba6-2b1da3a0a0ae',
     clientSecret: 'gN4tokiyF8Ef8sVx1vHsf_YWydqOB8y3RGlziYPx0vg',
-    callbackURL: "http://localhost:4006/cache/snapchat/auth/callback",
+    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
     scope: ['user.display_name', 'user.bitmoji.avatar'],
     profileFields: ['id', 'displayName', 'bitmoji.avatar', 'bitmoji.headshot', 'avatarId'],
     pkce: true,

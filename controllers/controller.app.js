@@ -31,9 +31,9 @@ const accessToken = async (request,response) => {
 
         const ExpiryTime = RequiredToken.updatedAt + (RequiredToken.expiresIn * 1000);
 
-        console.log(workspace.providers[existingProviderIndex])
+       // console.log(workspace.providers[existingProviderIndex])
         if(Date.now() < ExpiryTime){
-            console.log(RequiredToken)
+           // console.log(RequiredToken)
             return response.status(200).json({ accessToken:RequiredToken.accessToken })
         }
 
@@ -51,7 +51,7 @@ const accessToken = async (request,response) => {
                 
                 workspace.providers[existingProviderIndex].accessToken = accessToken;
                 workspace.providers[existingProviderIndex].updatedAt = Date.now();
-                console.log("Refreshed : ",workspace)
+               // console.log("Refreshed : ",workspace)
                 await workspace.save();
 
             } catch (dbError) {
