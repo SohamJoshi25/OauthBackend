@@ -41,10 +41,7 @@ app.use(cookieParser())
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use("/",(req,res,next)=>{
-//   console.log(req.method,req.path,req.query,req.session)
-//   next()
-// },appRouter)
+app.use("/",appRouter)
 
 
 connectDB();
