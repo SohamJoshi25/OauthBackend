@@ -29,7 +29,7 @@ app.use(session({
 
 
 app.use(cors({
-  origin: ['http://localhost:5173','https://localhost:5173','https://localhost:5173/chat',"https://www.app.creatosaurus.io/"],
+  origin: '*',
   credentials: true,
   methods: ['GET', 'POST','OPTIONS'],
   allowedHeaders: '*'
