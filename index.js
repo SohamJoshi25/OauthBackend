@@ -26,13 +26,16 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+
+
 app.use(cors({
   origin: ['http://localhost:5173','https://localhost:5173','https://localhost:5173/chat',"https://www.app.creatosaurus.io/"],
   credentials: true,
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST','OPTIONS'],
   allowedHeaders: '*'
 }));
 
+app.options('*', cors());
 
 app.use(express.json());
 app.use(cookieParser())
