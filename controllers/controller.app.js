@@ -59,12 +59,21 @@ const accessToken = async (request,response) => {
                 return response.status(500).json({ error: "Failed to update token in the database" });
             }
 
+            response.setHeader('Access-Control-Allow-Credentials', 'true');
+            response.setHeader('Access-Control-Allow-Origin', 'https://www.app.creatosaurus.io'); 
+    
+
             return response.json({accessToken})
 
             },
         );
 
     }catch(error){
+
+        response.setHeader('Access-Control-Allow-Credentials', 'true');
+        response.setHeader('Access-Control-Allow-Origin', 'https://www.app.creatosaurus.io'); 
+
+
         console.error(error);
         response.status(400).json({error:"Some Error Occured"})
     }
@@ -93,10 +102,16 @@ const logout = async (request,response) => {
             return response.status(202).json({message:"User Not Found or Provider Not Present"});
         }
 
+        response.setHeader('Access-Control-Allow-Credentials', 'true');
+        response.setHeader('Access-Control-Allow-Origin', 'https://www.app.creatosaurus.io'); 
+
         return response.status(200).json({message:"Provider Removed"});
 
     }catch(error){
         console.error(error);
+        response.setHeader('Access-Control-Allow-Credentials', 'true');
+        response.setHeader('Access-Control-Allow-Origin', 'https://www.app.creatosaurus.io'); 
+
         response.status(400).json({error:"Some Error Occured"})
     }
 }
@@ -104,7 +119,9 @@ const logout = async (request,response) => {
 
 const commonCallBack = (req, res) => {
     const returnTo = req.session.returnTo || 'https://www.app.creatosaurus.io/';
-    delete req.session.returnTo;
+    delete req.session.returnTo;  
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.app.creatosaurus.io'); 
     res.redirect(returnTo);
 };
 
