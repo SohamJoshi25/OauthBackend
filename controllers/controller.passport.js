@@ -2,12 +2,12 @@
 const workspaceTokenModel = require("../models/model.token")
 
 const passportCallBack = async (request,accessToken,refreshToken,profile,done,expiryDuration = 3600) => {
-    console.log('Access Token:', accessToken);
-    console.log('Refresh Token:', refreshToken);
-    console.log('Profile:', profile);
-    console.log('Req:', request);
-    console.log('done:', done);
-    console.log('expiryDuration:', expiryDuration);
+    // console.log('Access Token:', accessToken);
+    // console.log('Refresh Token:', refreshToken);
+    // console.log('Profile:', profile);
+    // console.log('Req:', request);
+    // console.log('done:', done);
+    // console.log('expiryDuration:', expiryDuration);
    try {
 
         const provider = {
@@ -38,7 +38,7 @@ const passportCallBack = async (request,accessToken,refreshToken,profile,done,ex
             });
           
             await newWorkspace.save();
-            console.log('Workspace created successfully:', newWorkspace);
+            //console.log('Workspace created successfully:', newWorkspace);
 
         }else{
 
