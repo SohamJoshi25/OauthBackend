@@ -103,7 +103,7 @@ const logout = async (request,response) => {
 
 
 const commonCallBack = (req, res) => {
-    const returnTo = req.session.returnTo || '/';
+    const returnTo = req.session.returnTo || 'https://www.app.creatosaurus.io/';
     delete req.session.returnTo;
     res.redirect(returnTo);
 };
