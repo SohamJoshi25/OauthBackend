@@ -41,7 +41,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/",(req,res,next)=>{
-  console.log(req.params,req.body,req.method,req.headers,req.path)
+  if(process.env.NODE_ENV=="DEVELOPER")
+  console.log(req.session,req.params,req.body,req.method,req.headers,req.path)
   next()
 },appRouter)
 

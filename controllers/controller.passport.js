@@ -5,7 +5,7 @@ const passportCallBack = async (request,accessToken,refreshToken,profile,done,ex
     // console.log('Access Token:', accessToken);
     // console.log('Refresh Token:', refreshToken);
     // console.log('Profile:', profile);
-    // console.log('Req:', request);
+    // console.log('Req from passport:', request);
     // console.log('done:', done);
     // console.log('expiryDuration:', expiryDuration);
    try {
@@ -42,7 +42,7 @@ const passportCallBack = async (request,accessToken,refreshToken,profile,done,ex
 
         }else{
 
-            const existingProviderIndex = workspace.providers.findIndex(provider => provider.provider === profile.provider);
+            const existingProviderIndex = workspace.providers.findIndex(provider => provider.provider === profile.provider && provider.appName === request.session.appName );
 
             if(existingProviderIndex!=-1){
                 workspace.providers[existingProviderIndex] = provider;

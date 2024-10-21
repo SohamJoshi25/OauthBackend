@@ -21,6 +21,11 @@ const googlePhotosOptions = { scope: [
 ],accessType: 'offline', approvalPrompt: 'force' }
 
 
+const dropboxOptions = {
+  token_access_type: 'offline', // Request offline access for a refresh token
+  scope: 'files.metadata.read files.content.read account_info.read'
+};
+
 const authenticateAndRoute = (req, res, next) => {
   if (req.session.appName == "google-drive") {
 
@@ -46,7 +51,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 
 
 
-router.get('/auth/dropbox',returnTo ,decodeJwt ,passport.authenticate('dropbox-oauth2'));
+router.get('/auth/dropbox',returnTo ,decodeJwt ,passport.authenticate('dropbox-oauth2',dropboxOptions));
 
 router.get('/auth/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: '/',keepSessionInfo: true }),AppController.commonCallBack);
 
