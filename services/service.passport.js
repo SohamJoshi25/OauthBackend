@@ -6,18 +6,32 @@ const refresh = require("passport-oauth2-refresh");
 const passportCallBack = require("../controllers/controller.passport.js");
 require("dotenv").config()
 
-// Google Strategy
-const googleStrategy = new GoogleStrategy({
+// Google Strategy Drive
+const googleStrategyDrive = new GoogleStrategy({
     callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/google/callback",
-    clientID: process.env.ClientId,
-    clientSecret: process.env.ClientSecret,
+    clientID: process.env.GoogleDriveClientId,
+    clientSecret: process.env.GoogleDriveClientSecret,
     accessType: 'offline',
     prompt: 'consent',
     passReqToCallback: true
 },passportCallBack);
 
-passport.use(googleStrategy);
-refresh.use(googleStrategy);
+passport.use(googleStrategyDrive);
+refresh.use(googleStrategyDrive);
+
+
+// Google Strategy Photo
+const googleStrategyPhoto = new GoogleStrategy({
+    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/google/callback",
+    clientID: process.env.GooglePhotosClientId,
+    clientSecret: process.env.GooglePhotosClientSecret,
+    accessType: 'offline',
+    prompt: 'consent',
+    passReqToCallback: true
+},passportCallBack);
+
+passport.use(googleStrategyPhoto);
+refresh.use(googleStrategyPhoto);
 
 
 
@@ -38,9 +52,9 @@ refresh.use(dropboxStrategy);
 
 // Snapchat Strategy
 const snapchatStrategy = new SnapchatStrategy({
-    clientID: 'f31866cb-c917-4f30-aba6-2b1da3a0a0ae',
-    clientSecret: 'gN4tokiyF8Ef8sVx1vHsf_YWydqOB8y3RGlziYPx0vg',
-    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
+    clientID: process.env.SnapChatClientID,
+    clientSecret: process.env.SnapChatClientSecret,
+    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/snapchat/callback",
     scope: ['user.display_name', 'user.bitmoji.avatar'],
     profileFields: ['id', 'displayName', 'bitmoji.avatar', 'bitmoji.headshot', 'avatarId'],
     pkce: true,

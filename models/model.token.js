@@ -6,6 +6,10 @@ const providerSchema = new Schema({
         type: String,
         required: true,
     },
+    appName:{
+        type: String,
+        default:"NA"
+    },
     providerId:{
         type: String
     },

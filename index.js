@@ -14,18 +14,14 @@ require("./services/service.passport.js")
 // Routers
 const appRouter = require("./routers/router.app.js")
 
-
-
-
 const app = express()
 
 app.use(session({
-  secret: 'your_secret_key', 
+  secret: process.env.SessionSecret, 
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }));
-
 
 
 app.use(cors({
@@ -44,7 +40,10 @@ app.use(cookieParser())
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/",appRouter)
+app.use("/",(req,res,next)=>{
+  console.log(req.params,req.body,req.method,req.headers,req.path)
+  next()
+},appRouter)
 
 
 connectDB();

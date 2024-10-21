@@ -7,15 +7,33 @@ const AppController = require("../controllers/controller.app.js")
 const returnTo = require('../middlewares/middleware.returnTo.js')
 const decodeJwt = require('../middlewares/middleware.decodejwt.js')
 
-const googleOptions = { scope: [
+const googleDriveOptions = { scope: [
   'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/photoslibrary.readonly',
-  'https://www.googleapis.com/auth/youtube.readonly',
   'profile',
   'email'
-],
-accessType: 'offline', approvalPrompt: 'force' }
+],accessType: 'offline', approvalPrompt: 'force' }
 
+
+const googlePhotosOptions = { scope: [
+  'https://www.googleapis.com/auth/photoslibrary.readonly',
+  'profile',
+  'email'
+],accessType: 'offline', approvalPrompt: 'force' }
+
+
+const authenticateAndRoute = (req, res, next) => {
+  if (req.session.appName == "google-drive") {
+
+    return passport.authenticate('google', googleDriveOptions)(req, res, next);
+
+  } else if (req.session.appName == "google-photos") {
+
+    return passport.authenticate('google', googlePhotosOptions)(req, res, next);
+
+  }else{
+    return res.status(400).send("App name not found in session");
+  }
+};
 
 
 router.get("/getAccessToken", decodeJwt, AppController.accessToken)
@@ -23,9 +41,7 @@ router.get("/logOut", decodeJwt, AppController.logout)
 
 
 
-
-router.get("/auth/google",returnTo ,decodeJwt ,passport.authenticate('google', googleOptions))
-
+router.get("/auth/google",returnTo ,decodeJwt ,authenticateAndRoute)
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/',keepSessionInfo: true }), AppController.commonCallBack);
 
 

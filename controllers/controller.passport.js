@@ -17,6 +17,7 @@ const passportCallBack = async (request,accessToken,refreshToken,profile,done,ex
             emails: profile.emails ? profile.emails.map(e => e.value || e) : [],
             photo: profile.photos,
             otherData:"",
+            appName:request.session.appName,
             accessToken: accessToken,
             refreshToken: refreshToken || "temp-ref-token",
             expiresIn: expiryDuration,
@@ -38,7 +39,6 @@ const passportCallBack = async (request,accessToken,refreshToken,profile,done,ex
             });
           
             await newWorkspace.save();
-            //console.log('Workspace created successfully:', newWorkspace);
 
         }else{
 

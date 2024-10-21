@@ -13,7 +13,7 @@ const accessToken = async (request,response) => {
         }
         
     
-        const workspace = await workspaceTokenModel.findOne({workspaceId});
+        const workspace = await workspaceTokenModel.findOne({workspaceId,appName:provider});
         
         if(!workspace){
             return response.status(403).send(`WorkspaceId ID not registered ${workspaceId}`);
@@ -21,7 +21,7 @@ const accessToken = async (request,response) => {
 
         const workspaceProviders = workspace.providers;
 
-        const existingProviderIndex = workspaceProviders.findIndex(p => p.provider == provider);
+        const existingProviderIndex = workspaceProviders.findIndex(p => p.appName == provider);
 
         if(existingProviderIndex==-1){
             return response.status(404).send(`Provider not registered in workspaceID ${workspaceId}`);
