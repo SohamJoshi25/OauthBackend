@@ -41,7 +41,7 @@ const dropboxStrategy = new DropboxStrategy({
     callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
     clientID: process.env.DropboxClientId,
     clientSecret: process.env.DropboxClientSecret,
-    accessType: 'offline',
+    token_access_type:"offline",
     passReqToCallback: true
 }, (req,a,r,p,d) => {passportCallBack(req,a,r,p,d,1800)});
 
