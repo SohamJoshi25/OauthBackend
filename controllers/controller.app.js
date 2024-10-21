@@ -92,10 +92,10 @@ const logout = async (request,response) => {
         
         const result = await workspaceTokenModel.updateOne(
             {workspaceId}, 
-            { $pull: { providers: { provider: provider } } }
+            { $pull: { providers: { appName: provider } } }
           );
 
-          console.log(provider,result)
+          //console.log(provider,result)
 
         
         if(result.nModified == 0){
