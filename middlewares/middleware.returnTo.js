@@ -2,7 +2,7 @@ const returnTo = (request,_,next) => {
 
     const DecodedURI =  decodeURI(request.query.returnTo)
     const searchParams = new URLSearchParams(DecodedURI)
-    const appNameMatch = DecodedURI.match(/[?&]activeAppStore=([^&]+)/);
+    const appNameMatch = DecodedURI.match(/\/apps\/([^/?#]+)$/);;
 
     if (request.query.returnTo) {
         request.session.returnTo = DecodedURI;
