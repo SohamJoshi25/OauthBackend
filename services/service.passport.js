@@ -8,7 +8,7 @@ require("dotenv").config()
 
 // Google Strategy Drive
 const googleStrategyDrive = new GoogleStrategy({
-    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/google/callback",
+    callbackURL: process.env.NODE_ENV=="DEVELOPMENT"? "http://localhost:4006/auth/google/callback" :"https://oauthbackend-sfc8.onrender.com/auth/google/callback",
     clientID: process.env.GoogleDriveClientId,
     clientSecret: process.env.GoogleDriveClientSecret,
     accessType: 'offline',
@@ -22,7 +22,7 @@ refresh.use(googleStrategyDrive);
 
 // Google Strategy Photo
 const googleStrategyPhoto = new GoogleStrategy({
-    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/google/callback",
+    callbackURL: process.env.NODE_ENV=="DEVELOPMENT"?"http://localhost:4006/auth/google/callback":"https://oauthbackend-sfc8.onrender.com/auth/google/callback",
     clientID: process.env.GooglePhotosClientId,
     clientSecret: process.env.GooglePhotosClientSecret,
     accessType: 'offline',
@@ -38,11 +38,12 @@ refresh.use(googleStrategyPhoto);
 // Dropbox Strategy
 const dropboxStrategy = new DropboxStrategy({
     apiVersion: '2',
-    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
+    callbackURL: process.env.NODE_ENV=="DEVELOPMENT"?"http://localhost:4006/auth/dropbox/callback":"https://oauthbackend-sfc8.onrender.com/auth/dropbox/callback",
     clientID: process.env.DropboxClientId,
     clientSecret: process.env.DropboxClientSecret,
     token_access_type:"offline",
-    passReqToCallback: true
+    passReqToCallback: true,
+    force_reapprove:true
 }, (req,a,r,p,d) => {passportCallBack(req,a,r,p,d,1800)});
 
 passport.use(dropboxStrategy);
@@ -54,7 +55,7 @@ refresh.use(dropboxStrategy);
 const snapchatStrategy = new SnapchatStrategy({
     clientID: process.env.SnapChatClientID,
     clientSecret: process.env.SnapChatClientSecret,
-    callbackURL: "https://oauthbackend-sfc8.onrender.com/auth/snapchat/callback",
+    callbackURL: process.env.NODE_ENV=="DEVELOPMENT"?"http://localhost:4006/auth/snapchat/callback":"https://oauthbackend-sfc8.onrender.com/auth/snapchat/callback",
     scope: ['user.display_name', 'user.bitmoji.avatar'],
     profileFields: ['id', 'displayName', 'bitmoji.avatar', 'bitmoji.headshot', 'avatarId'],
     pkce: true,

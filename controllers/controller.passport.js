@@ -1,7 +1,7 @@
 // Upload to DB and pass to user
 const workspaceTokenModel = require("../models/model.token")
 
-const passportCallBack = async (request,accessToken,refreshToken,profile,done,expiryDuration = 3600) => {
+const passportCallBack = async (request,accessToken,refreshToken,profile,done,expiryDuration = 1800) => {
     // console.log('Access Token:', accessToken);
     // console.log('Refresh Token:', refreshToken);
     // console.log('Profile:', profile);

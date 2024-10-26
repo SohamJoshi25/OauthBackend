@@ -47,19 +47,19 @@ router.get("/logOut", decodeJwt, AppController.logout)
 
 
 router.get("/auth/google",returnTo ,decodeJwt ,authenticateAndRoute)
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/',keepSessionInfo: true }), AppController.commonCallBack);
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }), AppController.commonCallBack);
 
 
 
 router.get('/auth/dropbox',returnTo ,decodeJwt ,passport.authenticate('dropbox-oauth2',dropboxOptions));
 
-router.get('/auth/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: '/',keepSessionInfo: true }),AppController.commonCallBack);
+router.get('/auth/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }),AppController.commonCallBack);
 
 
 
 router.get('/auth/snapchat',returnTo ,decodeJwt ,passport.authenticate('snapchat'));
 
-router.get('/cache/snapchat/auth/callback', passport.authenticate('snapchat', { failureRedirect: '/',keepSessionInfo: true }) , AppController.commonCallBack);
+router.get('/cache/snapchat/auth/callback', passport.authenticate('snapchat', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }) , AppController.commonCallBack);
 
 
 
