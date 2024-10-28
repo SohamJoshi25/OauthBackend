@@ -1,7 +1,9 @@
 const returnTo = (request,_,next) => {
 
     const DecodedURI =  decodeURI(request.query.returnTo)
-    const searchParams = new URLSearchParams(DecodedURI)
+    const returnToURL = new URL(request.query.returnTo);
+    const searchParams = returnToURL.searchParams;HOTFIX UR
+
     const appNameMatch = DecodedURI.match(/\/apps\/([^/?#]+)$/);;
 
     if (request.query.returnTo) {
@@ -9,7 +11,9 @@ const returnTo = (request,_,next) => {
     }
 
     if(searchParams.has('activeAppStore')){
+
         request.session.appName=searchParams.get('activeAppStore');
+        
     }else if(appNameMatch){
         request.session.appName=appNameMatch[1]
     }else{
@@ -20,6 +24,7 @@ const returnTo = (request,_,next) => {
     if (request.query.workspaceId) {
         request.session.workspaceId = request.query.workspaceId;
     }
+    console.log("INFO: ",DecodedURI,searchParams.get('activeAppStore'))
     next();
 }
 
