@@ -2,7 +2,7 @@ const returnTo = (request,_,next) => {
 
     const DecodedURI =  decodeURI(request.query.returnTo)
     const returnToURL = new URL(request.query.returnTo);
-    const searchParams = returnToURL.searchParams;HOTFIX UR
+    const searchParams = returnToURL.searchParams;
 
     const appNameMatch = DecodedURI.match(/\/apps\/([^/?#]+)$/);;
 
