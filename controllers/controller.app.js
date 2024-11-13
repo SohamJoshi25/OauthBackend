@@ -43,7 +43,11 @@ const accessToken = async (request,response) => {
     
         refresh.requestNewAccessToken(RequiredToken.provider, RequiredToken.refreshToken, async (err, accessToken, refreshToken) => {
             if(err){
-                return response.status(400).json({err});
+                const result = await workspaceTokenModel.updateOne(
+                    {workspaceId}, 
+                    { $pull: { providers: { appName: provider } } }
+                );
+                return response.status(503).json({error:"Error While refreshing using refresh Token",err});
             }
 
             try {
