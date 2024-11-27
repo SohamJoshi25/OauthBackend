@@ -23,7 +23,7 @@ const returnTo = (request, response, next) => {
         } else if (appNameMatch) {
             request.session.appName = appNameMatch[1];
         } else {
-            request.session.appName = "NA";
+            request.session.appName = "";
         }
 
         // Store workspaceId in session if it exists

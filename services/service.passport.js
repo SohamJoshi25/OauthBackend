@@ -16,12 +16,12 @@ const googleStrategyDrive = new GoogleStrategy({
     passReqToCallback: true
 },passportCallBack);
 
-passport.use(googleStrategyDrive);
-refresh.use(googleStrategyDrive);
+passport.use('google-drive',googleStrategyDrive);
+refresh.use('google-drive',googleStrategyDrive);
 
 
 // Google Strategy Photo
-const googleStrategyPhoto = new GoogleStrategy({
+const googleStrategyPhotos = new GoogleStrategy({
     callbackURL: process.env.NODE_ENV=="DEVELOPMENT"?"http://localhost:4006/auth/google/callback":"https://oauthbackend-sfc8.onrender.com/auth/google/callback",
     clientID: process.env.GooglePhotosClientId,
     clientSecret: process.env.GooglePhotosClientSecret,
@@ -30,9 +30,21 @@ const googleStrategyPhoto = new GoogleStrategy({
     passReqToCallback: true
 },passportCallBack);
 
-passport.use(googleStrategyPhoto);
-refresh.use(googleStrategyPhoto);
+passport.use('google-photos',googleStrategyPhotos);
+refresh.use('google-photos',googleStrategyPhotos);
 
+// Google Strategy Business
+const googleStrategyBusiness = new GoogleStrategy({
+    callbackURL: process.env.NODE_ENV=="DEVELOPMENT"?"http://localhost:4006/auth/google/callback":"https://oauthbackend-sfc8.onrender.com/auth/google/callback",
+    clientID: process.env.GoogleSohamClientId,
+    clientSecret: process.env.GoogleSohamClientSecret,
+    accessType: 'offline',
+    prompt: 'consent',
+    passReqToCallback: true
+},passportCallBack);
+
+passport.use('google-business',googleStrategyBusiness);
+refresh.use('google-business',googleStrategyBusiness);
 
 
 // Dropbox Strategy
