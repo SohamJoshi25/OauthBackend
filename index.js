@@ -8,11 +8,12 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
 // Services
-const connectDB = require('./services/service.db.js')
-require("./services/service.passport.js")
+const connectDB = require('./services/db.service.js')
+require("./services/passport.service.js")
 
 // Routers
-const appRouter = require("./routers/router.app.js")
+const authRouter = require("./routers/auth.router.js")
+const appRouter = require("./routers/apps.router.js")
 
 const app = express()
 
@@ -40,12 +41,15 @@ app.use(cookieParser())
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/",(req,res,next)=>{
+app.use((req,res,next)=>{
   if(process.env.NODE_ENV=="DEVELOPMENT"){
     console.log(req.session,req.params,req.body,req.method,req.headers,req.url)
   }
   next()
-},appRouter)
+})
+
+app.use("/apps",appRouter)
+app.use("/",authRouter)
 
 
 connectDB();
