@@ -25,14 +25,7 @@ app.use(session({
 }));
 
 
-app.use(cors({
-  origin: '*',
-  credentials: true,
-  methods: ['GET', 'POST','OPTIONS'],
-  allowedHeaders: '*'
-}));
-
-app.options('*', cors());
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser())
@@ -43,7 +36,7 @@ app.use(passport.session());
 
 app.use((req,res,next)=>{
   if(process.env.NODE_ENV=="DEVELOPMENT"){
-    console.log(req.session,req.params,req.body,req.method,req.headers,req.url)
+    //console.log(req.session,req.params,req.body,req.method,req.headers,req.url)
   }
   next()
 })

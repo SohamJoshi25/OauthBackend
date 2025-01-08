@@ -3,12 +3,13 @@ const axios = require('axios')
 const fetchData = async (request, response) => {
     try {
 
-        if(!request.headers.authorization.split(" ")[1]){
+        if(!request.headers.authorization?.split(" ")[1]){
             return  response.status(400).json({message:"Access Token Not Found"});
         }
 
         const userDataResponse = await axios.get("https://api.medium.com/v1/me",{
-            headers:request.headers
+            headers:request.headers,
+            host:"https://api.medium.com"
         });
 
         const user = userDataResponse.data;
