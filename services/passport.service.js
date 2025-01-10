@@ -1,16 +1,19 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20");
+
+//Import Strategy
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
 const SnapchatStrategy = require('passport-snapchat').Strategy 
+
 const refresh = require("passport-oauth2-refresh");
 const { passportCallBack } = require("../middlewares/callback.middleware.js");
-require("dotenv").config()
 
-const APP_DOMAIN = process.env.NODE_ENV=="DEVELOPMENT"? process.env.APP_DOMAIN_LOCAL : process.env.APP_APP_DOMAIN_PRODUCTION ;
+const {GOOGLE_REDIRECT_URL,DROPBOX_REDIRECT_URL,SNAPCHAT_REDIRECT_URL} = require("../data/constants.data.js")
+
 
 // Google Strategy Drive
 const googleStrategyDrive = new GoogleStrategy({
-    callbackURL: APP_DOMAIN+"/auth/google/callback",
+    callbackURL: GOOGLE_REDIRECT_URL,
     clientID: process.env.GoogleDriveClientId,
     clientSecret: process.env.GoogleDriveClientSecret,
     accessType: 'offline',
@@ -24,7 +27,7 @@ refresh.use('google-drive',googleStrategyDrive);
 
 // Google Strategy Photo
 const googleStrategyPhotos = new GoogleStrategy({
-    callbackURL:  APP_DOMAIN+"/auth/google/callback",
+    callbackURL:  GOOGLE_REDIRECT_URL,
     clientID: process.env.GooglePhotosClientId,
     clientSecret: process.env.GooglePhotosClientSecret,
     accessType: 'offline',
@@ -37,7 +40,7 @@ refresh.use('google-photos',googleStrategyPhotos);
 
 // Google Strategy Business
 const googleStrategyBusiness = new GoogleStrategy({
-    callbackURL:  APP_DOMAIN+"/auth/google/callback",
+    callbackURL:  GOOGLE_REDIRECT_URL,
     clientID: process.env.GoogleBusinessClientId,
     clientSecret: process.env.GoogleBusinessClientSecret,
     accessType: 'offline',
@@ -52,7 +55,7 @@ refresh.use('google-business',googleStrategyBusiness);
 // Dropbox Strategy
 const dropboxStrategy = new DropboxStrategy({
     apiVersion: '2',
-    callbackURL:  APP_DOMAIN+"/auth/dropbox/callback",
+    callbackURL:  DROPBOX_REDIRECT_URL,
     clientID: process.env.DropboxClientId,
     clientSecret: process.env.DropboxClientSecret,
     token_access_type:"offline",
@@ -69,7 +72,7 @@ refresh.use(dropboxStrategy);
 const snapchatStrategy = new SnapchatStrategy({
     clientID: process.env.SnapChatClientId,
     clientSecret: process.env.SnapChatClientSecret,
-    callbackURL:  APP_DOMAIN+"/auth/snapchat/callback",
+    callbackURL:  SNAPCHAT_REDIRECT_URL,
     scope: ['user.display_name', 'user.bitmoji.avatar'],
     profileFields: ['id', 'displayName', 'bitmoji.avatar', 'bitmoji.headshot', 'avatarId'],
     pkce: true,
@@ -90,7 +93,5 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
-
-
 
 module.exports = passport;

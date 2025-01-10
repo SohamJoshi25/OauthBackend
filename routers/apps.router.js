@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router();
 
-//import Medium
-const { fetchData, postPublications } = require("../controllers/apps/medium.controller.js")
+//import Apps Router.
+const MediumRouter = require("./apps/medium.app.router.js");
 
-//medium
-router.route("/medium").get(fetchData).post(postPublications);
+//Mount Sub Routers
+router.use("/medium",MediumRouter);
 
 module.exports = router;

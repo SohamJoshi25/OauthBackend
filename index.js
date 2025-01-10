@@ -8,8 +8,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
 // Services
-const connectDB = require('./services/db.service.js')
 require("./services/passport.service.js")
+require('./services/db.service.js')();
 
 // Routers
 const authRouter = require("./routers/auth.router.js")
@@ -23,29 +23,33 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
-
-
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser())
-
-
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Debugging Middleware
 app.use((req,res,next)=>{
   if(process.env.NODE_ENV=="DEVELOPMENT"){
-    //console.log(req.session,req.params,req.body,req.method,req.headers,req.url)
+    console.log(req.session,req.params,req.body,req.method,req.headers,req.url)
   }
-  next()
+  next();
 })
 
-app.use("/apps",appRouter)
-app.use("/",authRouter)
+//Routers
+app.use("/v1/auth",authRouter)
+app.use("/v1/apps",appRouter)
 
+//Health Handeller.
+app.get("/",(request,response) => {
+  response.status(200).json({"message":"Health OK"})
+})
 
-connectDB();
+//Catch All Handeller
+app.use((req, res) => {
+  res.status(404).json({"message":"Requested Endpoint does not exist"})
+});
 
 app.listen(process.env.PORT || 3000, ()=>{
   console.log("Listening to port ",process.env.PORT || 3000)

@@ -1,6 +1,7 @@
 const refresh = require("passport-oauth2-refresh");
 const workspaceTokenModel = require("../models/token.model.js")
 
+const { MEDIUM_REDIRECT_URL } = require('../data/constants.data.js')
 const { mediumRefreshStrategy }  = require('../middlewares/refreshStrategy.middleware.js')
 
 //Common Controllers for auth
@@ -13,20 +14,20 @@ const accessToken = async (request,response) => {
         const workspaceId = request.query.workspaceId;
 
         if(!userId || !workspaceId){
-            return response.status(402).json({error:"UserID or WorkspaceID not found or Invalid : Express Controller"});
+            return response.status(402).json({message:"UserID or WorkspaceID not found or Invalid : Express Controller"});
         }
     
         const workspace = await workspaceTokenModel.findOne({workspaceId});
         
         if(!workspace){
-            return response.status(403).send(`WorkspaceId ID not registered ${workspaceId}`);
+            return response.status(403).json({message:`WorkspaceId ID not registered ${workspaceId}`});
         }
 
         const workspaceProviders = workspace.providers; 
         const existingProviderIndex = workspaceProviders.findIndex(p => p.appName == provider);
 
         if(existingProviderIndex==-1){
-            return response.status(404).send(`Provider not registered in workspaceID ${workspaceId}`);
+            return response.status(404).json({message:`Provider not registered in workspaceID ${workspaceId}`});
         }
 
         const RequiredToken = workspaceProviders[existingProviderIndex];
@@ -73,7 +74,7 @@ const accessToken = async (request,response) => {
             }
 
         if(!RequiredToken.refreshToken){
-            return response.status(403).send(`RefreshToken Not found`);
+            return response.status(403).json({message:`RefreshToken Not found`});
         }else if(RequiredToken.appName == "medium"){
             mediumRefreshStrategy(RequiredToken.refreshToken,refreshCallback)
         }else{
@@ -135,7 +136,7 @@ const logout = async (request,response) => {
     }
 }
 
-const returnAccessToken = (req, res) => {
+const handleOAuthRedirect = (req, res) => {
     const returnTo = req.session.returnTo || 'https://www.app.creatosaurus.io/';
     delete req.session.returnTo;  
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -148,13 +149,12 @@ const returnAccessToken = (req, res) => {
 
 const mediumAuthenticate = async (request,response) => {
     const clientId = process.env.MediumClientId;
-    const redirectUri =  process.env.NODE_ENV=="DEVELOPMENT"? process.env.APP_DOMAIN_LOCAL : process.env.APP_DOMAIN_PRODUCTION +"/auth/medium/callback";
     const scope = 'basicProfile,publishPost';
     const state = process.env.SessionSecret;
   
-    const authUrl = `https://medium.com/v1/oauth/authorize?client_id=${clientId}&scope=${scope}&state=${state}&response_type=code&redirect_uri=${redirectUri}`;
+    const authUrl = `https://medium.com/m/oauth/authorize?client_id=${clientId}&scope=${scope}&state=${state}&response_type=code&redirect_uri=${MEDIUM_REDIRECT_URL}`;
     
-    res.redirect(authUrl);
+    response.redirect(authUrl);
 }
 
-module.exports = {accessToken,returnAccessToken,logout,mediumAuthenticate}
+module.exports = {accessToken,handleOAuthRedirect,logout,mediumAuthenticate}

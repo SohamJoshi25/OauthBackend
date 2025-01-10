@@ -1,7 +1,12 @@
 const express = require("express")
 const router = express.Router();
 const passport = require("passport")
-const { accessToken, returnAccessToken, logout } = require("../controllers/auth.controller.js")
+
+
+//Controllers
+const { accessToken, handleOAuthRedirect, logout } = require("../controllers/auth.controller.js")
+const { mediumAuthenticate } = require("../controllers/auth.controller.js")
+const { mediumCallBack } = require('../middlewares/callback.middleware.js')
 
 
 // Middleware
@@ -31,9 +36,8 @@ const googleBusinessOptions = { scope: [
   'email'
 ],accessType: 'offline', approvalPrompt: 'force' }
 
-
 const dropboxOptions = {
-  token_access_type: 'offline', // Request offline access for a refresh token
+  token_access_type: 'offline',
   scope: 'files.metadata.read files.content.read account_info.read'
 };
 
@@ -53,7 +57,7 @@ const googleAppRoute = (req, res, next) => {
     return passport.authenticate('google-business', googleBusinessOptions)(req, res, next);
   }
   else{
-    return res.status(400).send("App name not found in session");
+    return res.status(400).json({message:"App name not found in session"});
   }
 };
 
@@ -71,31 +75,29 @@ const googleCallbackRoute = (req, res, next) => {
 
     return passport.authenticate('google-business', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true })(req, res, next);
   }else{
-    return res.status(400).send("App name not found in session from Google Callback");
+    return res.status(400).json({message:"App name not found in session from Google Callback"});
   }
 };
 
-router.get("/auth/google",returnTo ,decodeJwt ,googleAppRoute)
-router.get('/auth/google/callback', googleCallbackRoute , returnAccessToken)
+
+router.get('/google',returnTo ,decodeJwt ,googleAppRoute)
+router.get('/google/callback', googleCallbackRoute , handleOAuthRedirect)
 
 
-router.get('/auth/dropbox',returnTo ,decodeJwt ,passport.authenticate('dropbox-oauth2',dropboxOptions));
-router.get('/auth/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }),returnAccessToken);
+router.get('/dropbox',returnTo ,decodeJwt ,passport.authenticate('dropbox-oauth2',dropboxOptions));
+router.get('/dropbox/callback', passport.authenticate('dropbox-oauth2', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }),handleOAuthRedirect);
 
 
-router.get('/auth/snapchat',returnTo ,decodeJwt ,passport.authenticate('snapchat'));
-router.get('/cache/snapchat/auth/callback', passport.authenticate('snapchat', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }) , returnAccessToken);
+router.get('/snapchat',returnTo ,decodeJwt ,passport.authenticate('snapchat'));
+router.get('/snapchat/callback', passport.authenticate('snapchat', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }) , handleOAuthRedirect);
 
 
-router.get("/auth/medium",returnTo ,decodeJwt ,googleAppRoute)
-router.get('/auth/medium/callback', googleCallbackRoute , returnAccessToken)
+router.get('/medium',returnTo ,decodeJwt ,mediumAuthenticate)
+router.get('/medium/callback', mediumCallBack , handleOAuthRedirect)
 
 
-router.get("/getAccessToken", decodeJwt, accessToken)
-router.get("/logOut", decodeJwt, logout)
+router.get('/accesstoken', decodeJwt, accessToken)
+router.get('/logout', decodeJwt, logout)
 
-router.get("/",(request,response) => {
-  response.send("Health OK")
-})
 
 module.exports = router;

@@ -1,3 +1,4 @@
+//Adds returnTo , appname , workspaceId to request session
 const returnTo = (request, response, next) => {
     try {
         if (!request.query.returnTo) {

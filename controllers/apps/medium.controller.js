@@ -3,24 +3,37 @@ const axios = require('axios')
 const fetchData = async (request, response) => {
     try {
 
-        if(!request.headers.authorization?.split(" ")[1]){
-            return  response.status(400).json({message:"Access Token Not Found"});
+        const authHeader = request.headers.authorization;
+        const accessToken = authHeader?.split(" ")[1];
+
+        console.log(accessToken)
+
+        if (!accessToken) {
+            return response.status(400).json({ message: "Access Token Not Found" });
         }
 
-        const userDataResponse = await axios.get("https://api.medium.com/v1/me",{
-            headers:request.headers,
-            host:"https://api.medium.com"
+        // Make request to Medium API
+        const userDataResponse = await axios.get("https://api.medium.com/v1/me", {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
         });
 
         const user = userDataResponse.data;
-        return response.status(200).json({message:"Success",user});
 
-        
+        console.log(user)
+
+        // Return user data
+        return response.status(200).json({ message: "Success", user });
     } catch (error) {
-        console.error(error);
-        response.status(400).json(error);
+        console.error("Error fetching user data from Medium:", error.message);
+
+        // Return sanitized error response
+        const status = error.response?.status || 500;
+        const message = error.response?.data || { message: "Internal Server Error" };
+        return response.status(status).json({ message });
     }
-}
+};
 
 const postPublications = async (request, response) => {
     try {
