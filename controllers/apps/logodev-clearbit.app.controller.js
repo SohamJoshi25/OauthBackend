@@ -1,11 +1,11 @@
 const axios = require('axios')
 
 const downloadImage = async (request,response) => {
-    const imageUrl = request.query.url; // Replace with your logo.dev image URL
+    const imageUrl = request.query.url;
 
     try {
         const imageResponse = await axios.get(imageUrl,{
-            responseType: 'stream', // Fetch the image as a stream
+            responseType: 'stream',
         });
 
         // Set headers for download
