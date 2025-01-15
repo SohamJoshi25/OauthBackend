@@ -9,7 +9,7 @@ const downloadImage = async (request,response) => {
         });
 
         // Set headers for download
-        response.setHeader('Content-Disposition', `attachment; filename=${imageUrl.split("?")[0]}`);
+        response.setHeader('Content-Disposition', `attachment; filename=${imageUrl.split("?")[0]}.${imageUrl.split(".").pop()}`);
         response.setHeader('Content-Type', imageResponse.headers['content-type']);
 
         // Pipe the image data to the client
