@@ -1,5 +1,5 @@
 {
-  "name": "App-Store-Backend",
+  "name": "app-store-backend",
   "version": "1.0.0",
   "description": "Backend for App Store",
   "main": "index.js",
@@ -22,6 +22,8 @@
     "passport-dropbox-oauth2": "^1.1.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-oauth2-refresh": "^2.2.0",
-    "passport-snapchat": "^1.0.0"
+    "passport-shopify": "^0.0.1",
+    "passport-snapchat": "^1.0.0",
+    "passport-wordpress": "^0.0.4"
   }
 }

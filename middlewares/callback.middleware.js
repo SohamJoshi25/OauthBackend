@@ -3,6 +3,7 @@ const { MEDIUM_REDIRECT_URL } = require("../data/constants.data.js")
 
 //This Function is triggered AFTER code exchange and access token is available after passport.js for database updation
 const passportCallBack = async (request, accessToken, refreshToken, profile, done, expiryDuration = 1800) => {
+    console.log(request.session);
     try {
         const provider = {
             provider: profile.provider,
@@ -51,7 +52,7 @@ const passportCallBack = async (request, accessToken, refreshToken, profile, don
 
     } catch (error) {
         console.error(error);
-        return done(error, "Error Occured");
+        return done(error, { message:"Error Occured"});
     }
 }
 

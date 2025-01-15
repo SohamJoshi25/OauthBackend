@@ -92,6 +92,10 @@ router.get('/snapchat',returnTo ,decodeJwt ,passport.authenticate('snapchat'));
 router.get('/snapchat/callback', passport.authenticate('snapchat', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }) , handleOAuthRedirect);
 
 
+router.get('/wordpress',returnTo ,decodeJwt ,passport.authenticate('wordpress'));
+router.get('/wordpress/callback', passport.authenticate('wordpress', { failureRedirect: 'https://www.app.creatosaurus.io/',keepSessionInfo: true }) , handleOAuthRedirect);
+
+
 router.get('/medium',returnTo ,decodeJwt ,mediumAuthenticate)
 router.get('/medium/callback', mediumCallBack , handleOAuthRedirect)
 

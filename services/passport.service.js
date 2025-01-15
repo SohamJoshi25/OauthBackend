@@ -3,12 +3,14 @@ const passport = require("passport");
 //Import Strategy
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const DropboxStrategy = require('passport-dropbox-oauth2').Strategy;
-const SnapchatStrategy = require('passport-snapchat').Strategy 
+const SnapchatStrategy = require('passport-snapchat').Strategy;
+const WordpressStrategy = require('passport-wordpress').Strategy;
+const ShopifyStrategy = require('passport-shopify').Strategy;
 
 const refresh = require("passport-oauth2-refresh");
 const { passportCallBack } = require("../middlewares/callback.middleware.js");
 
-const {GOOGLE_REDIRECT_URL,DROPBOX_REDIRECT_URL,SNAPCHAT_REDIRECT_URL} = require("../data/constants.data.js")
+const {GOOGLE_REDIRECT_URL,DROPBOX_REDIRECT_URL,SNAPCHAT_REDIRECT_URL,WORDPRESS_REDIRECT_URL,SHOPIFY_REDIRECT_URL} = require("../data/constants.data.js")
 
 
 // Google Strategy Drive
@@ -25,6 +27,7 @@ passport.use('google-drive',googleStrategyDrive);
 refresh.use('google-drive',googleStrategyDrive);
 
 
+
 // Google Strategy Photo
 const googleStrategyPhotos = new GoogleStrategy({
     callbackURL:  GOOGLE_REDIRECT_URL,
@@ -38,6 +41,8 @@ const googleStrategyPhotos = new GoogleStrategy({
 passport.use('google-photos',googleStrategyPhotos);
 refresh.use('google-photos',googleStrategyPhotos);
 
+
+
 // Google Strategy Business
 const googleStrategyBusiness = new GoogleStrategy({
     callbackURL:  GOOGLE_REDIRECT_URL,
@@ -50,6 +55,7 @@ const googleStrategyBusiness = new GoogleStrategy({
 
 passport.use('google-business',googleStrategyBusiness);
 refresh.use('google-business',googleStrategyBusiness);
+
 
 
 // Dropbox Strategy
@@ -84,8 +90,37 @@ passport.use(snapchatStrategy);
 refresh.use(snapchatStrategy);
 
 
+
+// Wordpress Strategy
+const wordpressStrategy = new WordpressStrategy({
+    clientID: process.env.WordpressClientId,
+    clientSecret: process.env.WordpressClientSecret,
+    callbackURL:  WORDPRESS_REDIRECT_URL,
+    passReqToCallback: true
+}, (req,a,r,p,d) => {passportCallBack(req,a,r,p,d,10000)});
+
+passport.use(wordpressStrategy);
+refresh.use(wordpressStrategy);
+
+
+
+// Shopify Strategy
+// const shopifyStrategy = new ShopifyStrategy({
+//     clientID: process.env.ShopifyClientId,
+//     clientSecret: process.env.ShopifyClientSecret,
+//     callbackURL:  SHOPIFY_REDIRECT_URL,
+//     shop:'{SHOP}',
+//     passReqToCallback: true
+// }, (req,a,r,p,d) => {passportCallBack(req,a,r,p,d)});
+
+// passport.use(shopifyStrategy);
+// refresh.use(shopifyStrategy);
+
+
+
 // Serialize User
 passport.serializeUser((user, done) => {
+    console.log(user)
     done(null, user);
 });
 
