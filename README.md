@@ -70,9 +70,6 @@ OauthBackend/
 ├── package.json
 └── README.md
 
-markdown
-Copy
-Edit
 
 ## 🛠️ Tech Stack
 
