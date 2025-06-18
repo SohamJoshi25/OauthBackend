@@ -40,6 +40,7 @@ This microservice handles OAuth-based authentication for the following providers
 
 ## 📁 Code Structure
 
+```
 OauthBackend/
 ├── config/
 │ ├── passport-google.js # Google OAuth strategy config
@@ -70,6 +71,7 @@ OauthBackend/
 ├── package.json
 └── README.md
 
+```
 
 ## 🛠️ Tech Stack
 
